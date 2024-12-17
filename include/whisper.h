@@ -491,6 +491,7 @@ extern "C" {
         bool print_progress;    // print progress information
         bool print_realtime;    // print results from within whisper.cpp (avoid it, use callback instead)
         bool print_timestamps;  // print timestamps for each text segment when printing realtime
+        bool streaming_mode;    // enable streaming mode. In this mode, whisper will return of the starting timestamp of incomplete segments(if any)
 
         // [EXPERIMENTAL] token-level timestamps
         bool  token_timestamps; // enable token-level timestamps

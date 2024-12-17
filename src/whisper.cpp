@@ -4655,6 +4655,7 @@ struct whisper_full_params whisper_full_default_params(enum whisper_sampling_str
         /*.print_progress    =*/ true,
         /*.print_realtime    =*/ false,
         /*.print_timestamps  =*/ true,
+        /*.streaming_mode    =*/ false,
 
         /*.token_timestamps  =*/ false,
         /*.thold_pt          =*/ 0.01f,
@@ -6209,6 +6210,9 @@ int whisper_full_with_state(
                 tokens_cur.back().id > whisper_token_beg(ctx);
             if (single_timestamp_ending) {
                 seek_delta = std::min(seek_end - seek, WHISPER_CHUNK_SIZE * 100);
+            } else if (params.streaming_mode && seek_end - seek < WHISPER_CHUNK_SIZE * 100) {
+                // Not enough data to process. Ask the app for more data.
+                return seek + seek_delta;
             }
 
             // update audio window
